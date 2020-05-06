@@ -1,0 +1,55 @@
+pipeline{
+	agent {
+		label 'Windows_Node'
+	}
+	stages{
+		stage('Git-Checkout'){
+			steps{
+			   echo "Checkingout from GIT repo";
+			   git 'https://github.com/yelurikiranmayi/Scripted_Pipeline.git'
+			}
+		}
+		stage('Build'){
+			steps{
+				echo "Building the checkedout project Successfully!!";
+				bat 'Build.bat'
+			}
+		}
+		stage('Unit-Test'){
+			steps{
+				echo "JUnit passed Successfully!!";
+				bat 'Unit.bat'
+			}
+		}
+		stage('Quality-Gate'){
+			steps{
+				echo "SonarQube Quality Gate passed Successfully!!";
+				bat 'Quality.bat'
+			}
+		}
+		stage('Deploy'){
+			steps{
+				echo "Deployed Successfully!!";
+				bat 'Deploy.bat'
+			}
+		}
+	}
+	post{
+		always{
+			echo 'This will run always'
+		}
+		success{
+			echo 'This will run only if success'
+		}
+		failure{
+			echo 'This will run only if failure'
+		}
+		unstable{
+			echo 'This will run only if the run is marked as unstable'
+		}
+		changed{
+			echo 'This will run only if the state of the pipeline has changed'
+			echo 'For Example, if the pipeline was previously failing but now it is successfull'
+		}
+	}
+}
