@@ -3,27 +3,32 @@ pipeline{
 	stages{
 		stage('Git-Checkout'){
 			steps{
-				echo "Checkingout from GIT repo";
+			   echo "Checkingout from GIT repo";
+			   git 'https://github.com/yelurikiranmayi/Scripted_Pipeline.git'
 			}
 		}
 		stage('Build'){
 			steps{
 				echo "Building the checkedout project Successfully!!";
+				bat 'Build.bat'
 			}
 		}
 		stage('Unit-Test'){
 			steps{
 				echo "JUnit passed Successfully!!";
+				bat 'Unit.bat'
 			}
 		}
 		stage('Quality-Gate'){
 			steps{
 				echo "SonarQube Quality Gate passed Successfully!!";
+				bat 'Quality.bat'
 			}
 		}
 		stage('Deploy'){
 			steps{
 				echo "Deployed Successfully!!";
+				bat 'Deploy.bat'
 			}
 		}
 	}
